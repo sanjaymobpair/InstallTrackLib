@@ -210,7 +210,6 @@ class Util {
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
-
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(
                     new OutputStreamWriter(os, "UTF-8"));
@@ -262,11 +261,10 @@ class Util {
         return result.toString();
     }
 
-
     public static class callapi extends AsyncTask<String, String, String> {
         String token, apikey, serverkey, usergent, refferer, event_id, domainEndPoint;
 
-        public callapi(String token, String apikey, String serverkey, String userAgent, String refferer, String eventid, String domainendpoint) {
+        callapi(String token, String apikey, String serverkey, String userAgent, String refferer, String eventid, String domainendpoint) {
             this.token = token;
             this.apikey = apikey;
             this.serverkey = serverkey;
