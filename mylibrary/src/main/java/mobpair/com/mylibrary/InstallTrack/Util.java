@@ -22,6 +22,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -135,7 +136,8 @@ class Util {
     }
 
     /**
-     * setclick id get from api data
+     * a
+     * setclick id get from api dat
      *
      * @param clickId store clickid
      */
@@ -204,9 +206,9 @@ class Util {
             url = new URL(URL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(15000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("POST");
+            conn.setReadTimeout(50000);
+            conn.setConnectTimeout(50000);
+            conn.setReadTimeout(50000);
             conn.setDoInput(true);
             conn.setDoOutput(true);
 
@@ -314,7 +316,8 @@ class Util {
             hashMap.put("useragent", usergent);
             hashMap.put("refferer", refferer);
             Log.d("Util", "HashMap " + hashMap.toString());
-            String url = Util.getResponseofPost(domainEndPoint + "/site/track.html?", hashMap);
+            Log.d("Util", "DomainEndPoint :  " + domainEndPoint);
+            String url = Util.getResponseofPost("http://" + domainEndPoint + "/site/track.html?", hashMap);
             //String url = Util.getResponseofPost("http://technology.makeaff.com:8081/frontend/web/site/track?", hashMap);
             Log.d("Util", "Url " + url);
             return url;
