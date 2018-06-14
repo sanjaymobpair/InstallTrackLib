@@ -29,8 +29,7 @@ public class InternetConnectionClass {
 
             assert connectivityManager != null;
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            connected = networkInfo != null && networkInfo.isAvailable() &&
-                    networkInfo.isConnected();
+            connected = networkInfo != null && networkInfo.isAvailable() && networkInfo.isConnected();
             return connected;
         } catch (Exception e) {
             Log.d("connectivity", e.toString());

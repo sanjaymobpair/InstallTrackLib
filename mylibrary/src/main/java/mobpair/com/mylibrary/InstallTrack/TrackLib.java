@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 /**
  * Created by ${Mobpair} on 21/3/18.
@@ -39,7 +40,6 @@ public class TrackLib {
 
     public void init(Application application) {
         util = new Util(application);
-        Context context = application;
         Log.d(TAG, "Init : ServerKey" + serverKey + "ApiKey :" + apiKey + "FcmToken" + fcmToken);
         userAgent = new WebView(application).getSettings().getUserAgentString();
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(application));
@@ -98,5 +98,24 @@ public class TrackLib {
         domainEndPoint = domainendpoint;
         util.setDomainEndPoint(domainendpoint);
         Log.d(TAG, "Token : " + domainendpoint);
+    }
+
+    public void gameStage(String stage) {
+        Boolean isInstall = util.getBoolean();
+
+        Log.d(TAG, "isFirst : Else" + isInstall);
+        String fcmtoken, serverkey, apikey, useragent, clickId, domainendpoint;
+
+        fcmtoken = util.getFCMToken();
+        serverkey = util.getServerKey();
+        apikey = util.getApiKey();
+        useragent = util.getUserAgent();
+        clickId = util.getClickID();
+        domainendpoint = util.getDomainEndPoint();
+
+        Log.d(TAG, "gameStage : " + fcmtoken + " :: " + serverkey + " :: " + apikey + " :: " + useragent + " :: " + clickId + " :: " + domainendpoint);
+        if (isInstall) {
+            new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, stage, domainendpoint).execute();
+        }
     }
 }

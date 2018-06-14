@@ -94,12 +94,9 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
 
                     if (isInstall) {
                         new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, eventId, domainendpoint).execute();
-                    } else {
-
                     }
                     Log.d(TAG, "onActivityResumed : NotEquals");
                 }
-
             }
             Log.d(TAG, "app went to foreground");
             isInBackground = false;
