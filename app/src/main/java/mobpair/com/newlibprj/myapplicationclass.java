@@ -14,9 +14,10 @@ public class myapplicationclass extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        TrackLib.getInstance().init(this);
-        TrackLib.getInstance().serverKey(serverKey);
+        TrackLib.getInstance().init(this,serverKey,apiKey,"http://moboaff.makeaff.com/site/track.html?");
+       /* TrackLib.getInstance().serverKey(serverKey);
         TrackLib.getInstance().apiKey(apiKey);
         TrackLib.getInstance().domainEndPoint("moboaff.com");
+*/
     }
 }

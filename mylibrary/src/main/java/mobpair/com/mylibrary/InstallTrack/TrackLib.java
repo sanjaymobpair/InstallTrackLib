@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -38,8 +39,17 @@ public class TrackLib {
         }
     }
 
-    public void init(Application application) {
+    public void getKey(final String key) {
+        fcmToken = key;
+        util.setFCMToken(key);
+        //updateFCMToken(key);
+    }
+
+    public void init(Application application, String serverkey, String apikey, String domainendpoint) {
         util = new Util(application);
+        serverKey = serverkey;
+        apiKey = apikey;
+        domainEndPoint = domainendpoint;
         Log.d(TAG, "Init : ServerKey" + serverKey + "ApiKey :" + apiKey + "FcmToken" + fcmToken);
         userAgent = new WebView(application).getSettings().getUserAgentString();
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(application));
@@ -59,14 +69,15 @@ public class TrackLib {
             application.registerActivityLifecycleCallbacks(handler);
             application.registerComponentCallbacks(handler);
         }
+        Log.d(TAG, "TOKEN : " + util.getFCMToken());
+
     }
 
     public void updateFCMToken(String fcmtoken) {
         util.setFCMToken(fcmtoken);
         util.setIsFirstTime(false);
 
-        fcmToken = fcmtoken;
-        Log.d(TAG, "Token1 : " + fcmToken);
+        Log.d(TAG, "Token1 : " + fcmtoken);
         Log.d(TAG, "Token1 : " + serverKey);
         Log.d(TAG, "Token1 : " + apiKey);
         Log.d(TAG, "Token1 : " + refferer_chk);
@@ -75,11 +86,19 @@ public class TrackLib {
         String eventId = "INSTALL";
         Boolean res = util.getBoolean();
         Log.d(TAG, "Boolean" + res);
-        if (res) {
 
+        if (serverKey.equals("null") || apiKey.equals("null") || domainEndPoint.equals("null")) {
+            Log.d(TAG, " Please Reopen Your App..not getting some data");
         } else {
-            new Util.callapi(fcmToken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint).execute();
+            Log.d(TAG, ":: IsOnline");
+            if (res) {
+                Log.d(TAG, ":: IF");
+            } else {
+                Log.d(TAG, ":: Else");
+                new Util.callapi(fcmtoken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint).execute();
+            }
         }
+
     }
 
     public void serverKey(String serverkey) {
