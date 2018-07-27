@@ -51,9 +51,16 @@ public class TrackLib {
         apiKey = apikey;
         domainEndPoint = domainendpoint;
 
-        util.setServerKey(serverkey);
-        util.setApiKey(apikey);
-        util.setDomainEndPoint(domainendpoint);
+
+        if (util.getServerKey().equals("null")) {
+            util.setServerKey(serverkey);
+        }
+        if (util.getApiKey().equals("null")) {
+            util.setApiKey(apikey);
+        }
+        if (util.getDomainEndPoint().equals("null")) {
+            util.setDomainEndPoint(domainendpoint);
+        }
 
         Log.d(TAG, "Init : ServerKey" + serverKey + "ApiKey :" + apiKey + "FcmToken" + fcmToken);
         userAgent = new WebView(application).getSettings().getUserAgentString();
