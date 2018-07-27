@@ -83,20 +83,26 @@ public class TrackLib {
     }
 
     public void serverKey(String serverkey) {
-        util.setServerKey(serverkey);
-        serverKey = serverkey;
+        if (util.getServerKey() == null) {
+            util.setServerKey(serverkey);
+            serverKey = serverkey;
+        }
         Log.d(TAG, "Token : " + serverkey);
     }
 
     public void apiKey(String apikey) {
-        util.setApiKey(apikey);
-        apiKey = apikey;
+        if (util.getApiKey() == null) {
+            util.setApiKey(apikey);
+            apiKey = apikey;
+        }
         Log.d(TAG, "Token : " + apikey);
     }
 
     public void domainEndPoint(String domainendpoint) {
-        domainEndPoint = domainendpoint;
-        util.setDomainEndPoint(domainendpoint);
+        if (util.getDomainEndPoint() == null) {
+            domainEndPoint = domainendpoint;
+            util.setDomainEndPoint(domainendpoint);
+        }
         Log.d(TAG, "Token : " + domainendpoint);
     }
 

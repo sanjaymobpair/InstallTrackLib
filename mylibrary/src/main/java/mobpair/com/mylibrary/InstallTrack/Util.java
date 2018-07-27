@@ -317,7 +317,7 @@ class Util {
             hashMap.put("refferer", refferer);
             Log.d("Util", "HashMap " + hashMap.toString());
             Log.d("Util", "DomainEndPoint :  " + domainEndPoint);
-            String url = Util.getResponseofPost("http://" + domainEndPoint + "/site/track.html?", hashMap);
+            String url = Util.getResponseofPost( domainEndPoint, hashMap);
             //String url = Util.getResponseofPost("http://technology.makeaff.com:8081/frontend/web/site/track?", hashMap);
             Log.d("Util", "Url " + url);
             return url;
