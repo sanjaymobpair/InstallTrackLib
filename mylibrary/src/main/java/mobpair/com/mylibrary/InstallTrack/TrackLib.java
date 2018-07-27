@@ -50,6 +50,11 @@ public class TrackLib {
         serverKey = serverkey;
         apiKey = apikey;
         domainEndPoint = domainendpoint;
+
+        util.setServerKey(serverkey);
+        util.setApiKey(apikey);
+        util.setDomainEndPoint(domainendpoint);
+
         Log.d(TAG, "Init : ServerKey" + serverKey + "ApiKey :" + apiKey + "FcmToken" + fcmToken);
         userAgent = new WebView(application).getSettings().getUserAgentString();
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(application));
