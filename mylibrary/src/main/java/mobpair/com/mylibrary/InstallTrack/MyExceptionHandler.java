@@ -25,7 +25,6 @@ public class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable throwable) {
-        Log.d("MyExceptioHandler", "" + throwable);
         Intent intent = new Intent(application, ApplicationLifecycleHandler.class);
         intent.putExtra("crash", true);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP

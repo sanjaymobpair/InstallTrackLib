@@ -16,6 +16,5 @@ public class InstallReferrerReceiver extends BroadcastReceiver {
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     public void onReceive(Context context, Intent intent) {
         TrackLib.getInstance().onReceive(context, intent);
-        Log.d(TAG, "refferer");
     }
 }

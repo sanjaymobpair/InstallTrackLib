@@ -237,22 +237,17 @@ class Util {
             writer.close();
             os.close();
             int responseCode = conn.getResponseCode();
-            Log.d("Util", "Response Code" + URL + " - " + responseCode);
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                Log.d("Util", "If" + responseCode);
                 String line;
                 BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 while ((line = br.readLine()) != null) {
                     response += line;
                 }
             } else if (responseCode == HttpURLConnection.HTTP_CLIENT_TIMEOUT) {
-                Log.d("Util", "TimeOut" + responseCode);
                 response = "";
             }
-            Log.d("jai", "response :" + response);
 
             if (response == null || response == "" || response.equals("")) {
-                Log.d("jai", "response : null" + response);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -296,7 +291,6 @@ class Util {
 
         @Override
         protected void onPreExecute() {
-            Log.d("Util", "" + usergent);
             super.onPreExecute();
         }
 
@@ -305,7 +299,6 @@ class Util {
             Util util = new Util(mContext);
             if (s == null || s.equals("")) {
                 util.setErrorResponse(true);
-                Log.d("Util", "Response : " + s);
             } else {
                 util.setErrorResponse(false);
                 try {
@@ -316,7 +309,6 @@ class Util {
 
                     JSONObject jsonObject1 = jsonObject.getJSONObject("data");
                     if (jsonObject1.length() >= 0) {
-                        Log.d("Util@@", "array " + jsonObject1);
                         if (!jsonObject1.isNull("pubid")) {
                             pubid = jsonObject1.getString("pubid");
                         }
@@ -367,7 +359,6 @@ class Util {
                             track12 = jsonObject1.getString("track12");
                         }
                         thereIsSomeDataToGet.infofun(pubid, offerid, clickid, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
-                        Log.d("Util", "Response ParaMeter : " + message);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -386,11 +377,8 @@ class Util {
             hashMap.put("legacy", serverkey);
             hashMap.put("useragent", usergent);
             hashMap.put("refferer", refferer);
-            Log.d("Util", "HashMap " + hashMap.toString());
-            Log.d("Util", "DomainEndPoint :  " + domainEndPoint);
             String url = Util.getResponseofPost(domainEndPoint, hashMap);
             //String url = Util.getResponseofPost("http://technology.makeaff.com:8081/frontend/web/site/track?", hashMap);
-            Log.d("Util", "Url " + url);
             return url;
         }
     }

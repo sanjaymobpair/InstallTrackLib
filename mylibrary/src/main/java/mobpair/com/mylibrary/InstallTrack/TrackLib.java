@@ -31,9 +31,7 @@ public class TrackLib {
         if (referrer != null) {
             util = new Util(context);
             util.setRefferer(referrer);
-            Log.d(TAG, "refferer : " + referrer);
         } else {
-            Log.d(TAG, "refferer : Else");
         }
     }
 
@@ -44,7 +42,7 @@ public class TrackLib {
         //updateFCMToken(key);
     }
 
-    public void init(Application application, String serverkey, String apikey, String domainendpoint) {
+    public void init(Application application, String serverkey, String apikey, String domainendpoint,sendTOFcm sendTOFcm) {
         util = new Util(application);
         serverKey = serverkey;
         apiKey = apikey;
@@ -61,7 +59,6 @@ public class TrackLib {
             util.setDomainEndPoint(domainendpoint);
         }
 
-        Log.d(TAG, "Init : ServerKey" + serverKey + "ApiKey :" + apiKey + "FcmToken" + fcmToken);
         userAgent = new WebView(application).getSettings().getUserAgentString();
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(application));
         util.setUserAgent(userAgent);
@@ -70,9 +67,7 @@ public class TrackLib {
             refferer_chk = util.getRefferer();
         }
         if (refferer_chk != null) {
-            Log.d(TAG, "If : Refferer" + refferer_chk);
         } else {
-            Log.d(TAG, "Else : Null Refferer");
         }
 
         ApplicationLifecycleHandler handler = new ApplicationLifecycleHandler();
@@ -80,7 +75,6 @@ public class TrackLib {
             application.registerActivityLifecycleCallbacks(handler);
             application.registerComponentCallbacks(handler);
         }
-        Log.d(TAG, "TOKEN : " + util.getFCMToken());
 
     }
 
@@ -88,29 +82,18 @@ public class TrackLib {
         util.setFCMToken(fcmtoken);
         util.setIsFirstTime(false);
 
-        Log.d(TAG, "Token1 : " + fcmtoken);
-        Log.d(TAG, "Token1 : " + serverKey);
-        Log.d(TAG, "Token1 : " + apiKey);
-        Log.d(TAG, "Token1 : " + refferer_chk);
-        Log.d(TAG, "user : " + userAgent);
-
         String eventId = "INSTALL";
         Boolean res = util.getBoolean();
-        Log.d(TAG, "Boolean" + res);
 
         if (serverKey.equals("null") || apiKey.equals("null") || domainEndPoint.equals("null")) {
             Log.d(TAG, " Please Reopen Your App..not getting some data");
         } else {
-            Log.d(TAG, ":: IsOnline");
             if (res) {
-                Log.d(TAG, ":: IF");
             } else {
-                Log.d(TAG, ":: Else");
 
                 new Util.callapi(fcmtoken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint, new Util.ThereIsSomeDataToGet() {
                     @Override
                     public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
-                        Log.d(TAG, "info " + pubId + "::" + offerId + "::" + clickId + "::" + track1);
                         dosome.sendtofcm(pubId, offerId, clickId, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
                     }
                 }).execute();
@@ -124,7 +107,6 @@ public class TrackLib {
             util.setServerKey(serverkey);
             serverKey = serverkey;
         }
-        Log.d(TAG, "Token : " + serverkey);
     }
 
     public void apiKey(String apikey) {
@@ -132,7 +114,6 @@ public class TrackLib {
             util.setApiKey(apikey);
             apiKey = apikey;
         }
-        Log.d(TAG, "Token : " + apikey);
     }
 
     public void domainEndPoint(String domainendpoint) {
@@ -140,13 +121,11 @@ public class TrackLib {
             domainEndPoint = domainendpoint;
             util.setDomainEndPoint(domainendpoint);
         }
-        Log.d(TAG, "Token : " + domainendpoint);
     }
 
     public void gameStage(String stage, final sendTOFcm sendTOFcm) {
         Boolean isInstall = util.getBoolean();
 
-        Log.d(TAG, "isFirst : Else" + isInstall);
         String fcmtoken, serverkey, apikey, useragent, clickId, domainendpoint;
 
         fcmtoken = util.getFCMToken();
@@ -156,7 +135,6 @@ public class TrackLib {
         clickId = util.getClickID();
         domainendpoint = util.getDomainEndPoint();
 
-        Log.d(TAG, "gameStage : " + fcmtoken + " :: " + serverkey + " :: " + apikey + " :: " + useragent + " :: " + clickId + " :: " + domainendpoint);
         if (isInstall) {
             new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, stage, domainendpoint, new Util.ThereIsSomeDataToGet() {
                 @Override

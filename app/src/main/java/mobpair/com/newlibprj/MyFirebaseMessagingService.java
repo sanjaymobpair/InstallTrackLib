@@ -18,9 +18,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-        Log.d(TAG, "Message Notification Body: " + Objects.requireNonNull(remoteMessage.getNotification()).getBody());
 
         super.onMessageReceived(remoteMessage);
     }

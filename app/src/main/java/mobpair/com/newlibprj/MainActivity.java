@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
                 });
             }
         });
-        Toast.makeText(this, "stage called...", Toast.LENGTH_SHORT).show();
     }
 
 }

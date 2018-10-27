@@ -30,10 +30,8 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
     public void onActivityCreated(Activity activity, Bundle bundle) {
 
         util = new Util(activity);
-        Log.d(TAG, "onActivityCreated:" + getDatePref);
 
         if (InternetConnectionClass.getInstance(activity).isOnline()) {
-            Log.d(TAG, ":IF");
             Boolean res = util.getErrorResponse();
             String apiKey = util.getApiKey();
             String serverKey = util.getServerKey();
@@ -41,9 +39,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
             String refferer_chk = util.getRefferer();
             String domainendpoint = util.getDomainEndPoint();
 
-            Log.d(TAG, "Boolean" + res);
             if (res) {
-                Log.d(TAG, "If : True");
                 new Util.callapi(util.getFCMToken(), apiKey, serverKey, userAgent, refferer_chk, "INSTALL", domainendpoint, new Util.ThereIsSomeDataToGet() {
                     @Override
                     public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
@@ -51,10 +47,8 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                     }
                 }).execute();
             } else {
-                Log.d(TAG, "If : False");
             }
         } else {
-            Log.d(TAG, ":ELSE");
         }
     }
 
@@ -65,29 +59,22 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityResumed(Activity activity) {
-        Log.d(TAG, "onActivityResumed");
-        Log.d(TAG, "onActivityResumed :" + getDatePref);
         Date date = Calendar.getInstance().getTime();
         @SuppressLint("SimpleDateFormat")
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         String formattedDate = df.format(date);
 
-        Log.d(TAG, "Date" + util.getCurrentDate());
         getDatePref = util.getCurrentDate();
 
         if (isInBackground) {
             if (getDatePref.equalsIgnoreCase(formattedDate)) {
-                Log.d(TAG, "onActivityResumed : Equals");
             } else {
                 boolean isFirstTime = util.getIsFirstTime();
 
-                Log.d(TAG, "isFirst" + isFirstTime);
                 if (isFirstTime) {
-                    Log.d(TAG, "isFirst : If");
                 } else {
                     Boolean isInstall = util.getBoolean();
 
-                    Log.d(TAG, "isFirst : Else" + isInstall);
                     String fcmtoken, serverkey, apikey, useragent, clickId, eventId = "ACTIVE", domainendpoint;
 
                     fcmtoken = util.getFCMToken();
@@ -106,13 +93,10 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                             }
                         }).execute();
                     }
-                    Log.d(TAG, "onActivityResumed : NotEquals");
                 }
             }
-            Log.d(TAG, "app went to foreground");
             isInBackground = false;
         } else {
-            Log.d(TAG, "onActivityResumed : Null");
         }
     }
 
@@ -138,9 +122,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onTrimMemory(int i) {
-        Log.d(TAG, "onTrimMemory");
         if (i == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Log.d(TAG, "app went to background");
             isInBackground = true;
         }
     }
