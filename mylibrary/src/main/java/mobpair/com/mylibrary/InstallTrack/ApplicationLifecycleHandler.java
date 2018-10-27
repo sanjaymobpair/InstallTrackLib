@@ -28,6 +28,7 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
 
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
+
         util = new Util(activity);
         Log.d(TAG, "onActivityCreated:" + getDatePref);
 
@@ -43,7 +44,12 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
             Log.d(TAG, "Boolean" + res);
             if (res) {
                 Log.d(TAG, "If : True");
-                new Util.callapi(util.getFCMToken(), apiKey, serverKey, userAgent, refferer_chk, "INSTALL", domainendpoint).execute();
+                new Util.callapi(util.getFCMToken(), apiKey, serverKey, userAgent, refferer_chk, "INSTALL", domainendpoint, new Util.ThereIsSomeDataToGet() {
+                    @Override
+                    public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
+
+                    }
+                }).execute();
             } else {
                 Log.d(TAG, "If : False");
             }
@@ -93,7 +99,12 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
                     util.setCurrentDate(formattedDate);
 
                     if (isInstall) {
-                        new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, eventId, domainendpoint).execute();
+                        new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, eventId, domainendpoint, new Util.ThereIsSomeDataToGet() {
+                            @Override
+                            public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
+
+                            }
+                        }).execute();
                     }
                     Log.d(TAG, "onActivityResumed : NotEquals");
                 }

@@ -5,10 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Handler;
 import android.util.Log;
 import android.webkit.WebView;
-import android.widget.Toast;
 
 /**
  * Created by ${Mobpair} on 21/3/18.
@@ -38,6 +36,7 @@ public class TrackLib {
             Log.d(TAG, "refferer : Else");
         }
     }
+
 
     public void getKey(final String key) {
         fcmToken = key;
@@ -85,7 +84,7 @@ public class TrackLib {
 
     }
 
-    public void updateFCMToken(String fcmtoken) {
+    public void updateFCMToken(String fcmtoken, final sendTOFcm dosome) {
         util.setFCMToken(fcmtoken);
         util.setIsFirstTime(false);
 
@@ -107,7 +106,14 @@ public class TrackLib {
                 Log.d(TAG, ":: IF");
             } else {
                 Log.d(TAG, ":: Else");
-                new Util.callapi(fcmtoken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint).execute();
+
+                new Util.callapi(fcmtoken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint, new Util.ThereIsSomeDataToGet() {
+                    @Override
+                    public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
+                        Log.d(TAG, "info " + pubId + "::" + offerId + "::" + clickId + "::" + track1);
+                        dosome.sendtofcm(pubId, offerId, clickId, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
+                    }
+                }).execute();
             }
         }
 
@@ -137,7 +143,7 @@ public class TrackLib {
         Log.d(TAG, "Token : " + domainendpoint);
     }
 
-    public void gameStage(String stage) {
+    public void gameStage(String stage, final sendTOFcm sendTOFcm) {
         Boolean isInstall = util.getBoolean();
 
         Log.d(TAG, "isFirst : Else" + isInstall);
@@ -152,7 +158,17 @@ public class TrackLib {
 
         Log.d(TAG, "gameStage : " + fcmtoken + " :: " + serverkey + " :: " + apikey + " :: " + useragent + " :: " + clickId + " :: " + domainendpoint);
         if (isInstall) {
-            new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, stage, domainendpoint).execute();
+            new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, stage, domainendpoint, new Util.ThereIsSomeDataToGet() {
+                @Override
+                public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
+                    sendTOFcm.sendtofcm(pubId, offerId, clickId, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
+                }
+
+            }).execute();
         }
+    }
+
+    public interface sendTOFcm {
+        void sendtofcm(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12);
     }
 }

@@ -22,7 +22,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -39,7 +38,7 @@ class Util {
     private static String CURRENT_DATE = "currentdate";
     private static String REFFERER = "refferer", CLICKID = "clickid", FCMTOKEN = "fcmtoken";
     private static String APIKEY = "apikey", SERVERKEY = "serverkey", USERAGENT = "useragent", BOOLEAN = "boolean", ISFIRSTTIME = "isFirst";
-    private static String ISERROR = "iserror", DOMAINENDPOINT = "domainpoint";
+    private static String ISERROR = "iserror", DOMAINENDPOINT = "domainpoint", PUBID = "pubid", OFFERId = "offerid";
     private final SharedPreferences mPrefs;
     private static final String PREFERENCES = "settings";
     private String TAG = Util.class.getName();
@@ -147,6 +146,22 @@ class Util {
 
     String getClickID() {
         return mPrefs.getString(CLICKID, "null");
+    }
+
+    void setPubId(String pubId) {
+        putString(PUBID, pubId);
+    }
+
+    String getPubId() {
+        return mPrefs.getString(PUBID, "null");
+    }
+
+    void setOfferId(String offerId) {
+        putString(OFFERId, offerId);
+    }
+
+    String getOfferId() {
+        return mPrefs.getString(OFFERId, "null");
     }
 
     // TODO: 16/4/18 set fcm token
@@ -265,8 +280,10 @@ class Util {
 
     public static class callapi extends AsyncTask<String, String, String> {
         String token, apikey, serverkey, usergent, refferer, event_id, domainEndPoint;
+        String pubid, offerid, clickid, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12;
+        ThereIsSomeDataToGet thereIsSomeDataToGet;
 
-        callapi(String token, String apikey, String serverkey, String userAgent, String refferer, String eventid, String domainendpoint) {
+        callapi(String token, String apikey, String serverkey, String userAgent, String refferer, String eventid, String domainendpoint, ThereIsSomeDataToGet thereIsSomeDataToGet) {
             this.token = token;
             this.apikey = apikey;
             this.serverkey = serverkey;
@@ -274,6 +291,7 @@ class Util {
             this.refferer = refferer;
             this.event_id = eventid;
             this.domainEndPoint = domainendpoint;
+            this.thereIsSomeDataToGet = thereIsSomeDataToGet;
         }
 
         @Override
@@ -294,10 +312,63 @@ class Util {
                     JSONObject jsonObject = new JSONObject(s);
                     String message = jsonObject.getString("message");
                     Boolean response = jsonObject.getBoolean("response");
-                    String data = jsonObject.getString("data");
-                    util.setClickId(data);
                     util.setBoolean(response);
-                    Log.d("Util", "Response ParaMeter : " + message + ":" + response + ":" + data);
+
+                    JSONObject jsonObject1 = jsonObject.getJSONObject("data");
+                    if (jsonObject1.length() >= 0) {
+                        Log.d("Util@@", "array " + jsonObject1);
+                        if (!jsonObject1.isNull("pubid")) {
+                            pubid = jsonObject1.getString("pubid");
+                        }
+
+                        if (!jsonObject1.isNull("offer_id")) {
+                            offerid = jsonObject1.getString("offer_id");
+                        }
+
+                        if (!jsonObject1.isNull("clickid")) {
+                            clickid = jsonObject1.getString("clickid");
+                            util.setClickId(clickid);
+                        }
+
+                        if (!jsonObject1.isNull("track1")) {
+                            track1 = jsonObject1.getString("track1");
+                        }
+                        if (!jsonObject1.isNull("track2")) {
+                            track2 = jsonObject1.getString("track2");
+                        }
+                        if (!jsonObject1.isNull("track3")) {
+                            track3 = jsonObject1.getString("track3");
+                        }
+                        if (!jsonObject1.isNull("track4")) {
+                            track4 = jsonObject1.getString("track4");
+                        }
+                        if (!jsonObject1.isNull("track5")) {
+                            track5 = jsonObject1.getString("track5");
+                        }
+                        if (!jsonObject1.isNull("track6")) {
+                            track6 = jsonObject1.getString("track6");
+                        }
+                        if (!jsonObject1.isNull("track7")) {
+                            track7 = jsonObject1.getString("track7");
+                        }
+                        if (!jsonObject1.isNull("track8")) {
+                            track8 = jsonObject1.getString("track8");
+                        }
+                        if (!jsonObject1.isNull("track9")) {
+                            track9 = jsonObject1.getString("track9");
+                        }
+                        if (!jsonObject1.isNull("track10")) {
+                            track10 = jsonObject1.getString("track10");
+                        }
+                        if (!jsonObject1.isNull("track11")) {
+                            track11 = jsonObject1.getString("track11");
+                        }
+                        if (!jsonObject1.isNull("track12")) {
+                            track12 = jsonObject1.getString("track12");
+                        }
+                        thereIsSomeDataToGet.infofun(pubid, offerid, clickid, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
+                        Log.d("Util", "Response ParaMeter : " + message);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -317,10 +388,14 @@ class Util {
             hashMap.put("refferer", refferer);
             Log.d("Util", "HashMap " + hashMap.toString());
             Log.d("Util", "DomainEndPoint :  " + domainEndPoint);
-            String url = Util.getResponseofPost( domainEndPoint, hashMap);
+            String url = Util.getResponseofPost(domainEndPoint, hashMap);
             //String url = Util.getResponseofPost("http://technology.makeaff.com:8081/frontend/web/site/track?", hashMap);
             Log.d("Util", "Url " + url);
             return url;
         }
+    }
+
+    interface ThereIsSomeDataToGet {
+        void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12);
     }
 }
