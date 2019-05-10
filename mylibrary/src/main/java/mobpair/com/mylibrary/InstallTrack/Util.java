@@ -358,6 +358,8 @@ class Util {
                         if (!jsonObject1.isNull("track12")) {
                             track12 = jsonObject1.getString("track12");
                         }
+
+                        // TODO: 2019-05-10 set all tracks and pubId,offer_id and clickid will be set in interface class to send App to handle data
                         thereIsSomeDataToGet.infofun(pubid, offerid, clickid, track1, track2, track3, track4, track5, track6, track7, track8, track9, track10, track11, track12);
                     }
                 } catch (JSONException e) {
@@ -383,6 +385,7 @@ class Util {
         }
     }
 
+    // TODO: 2019-05-10 Interface to handle response and send data to app
     interface ThereIsSomeDataToGet {
         void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12);
     }

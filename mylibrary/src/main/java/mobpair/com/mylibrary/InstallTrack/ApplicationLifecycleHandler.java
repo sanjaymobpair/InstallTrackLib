@@ -16,6 +16,7 @@ import java.util.Date;
 
 /**
  * Created by ${Mobpair} on 7/3/18.
+ * Its Handle LifeCycler of Application
  */
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -26,6 +27,11 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
     private String getDatePref;
     private Util util;
 
+    /**
+     * IT WILL HANDLE RES IF ITS TRUE IT WILL CALL API WITH ALL DATA
+     * @param activity
+     * @param bundle
+     */
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {
 
@@ -57,6 +63,10 @@ public class ApplicationLifecycleHandler implements Application.ActivityLifecycl
         Log.d(TAG, "onActivityStarted");
     }
 
+    /***
+     * it willl call when every time app resumed if isInstall true
+     * @param activity
+     */
     @Override
     public void onActivityResumed(Activity activity) {
         Date date = Calendar.getInstance().getTime();

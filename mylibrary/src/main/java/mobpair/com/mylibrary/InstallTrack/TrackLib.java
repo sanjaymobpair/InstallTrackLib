@@ -42,7 +42,16 @@ public class TrackLib {
         //updateFCMToken(key);
     }
 
-    public void init(Application application, String serverkey, String apikey, String domainendpoint,sendTOFcm sendTOFcm) {
+    /**
+     * it will store all info into sharefpreference
+     *
+     * @param application
+     * @param serverkey
+     * @param apikey
+     * @param domainendpoint
+     * @param sendTOFcm
+     */
+    public void init(Application application, String serverkey, String apikey, String domainendpoint, sendTOFcm sendTOFcm) {
         util = new Util(application);
         serverKey = serverkey;
         apiKey = apikey;
@@ -59,6 +68,7 @@ public class TrackLib {
             util.setDomainEndPoint(domainendpoint);
         }
 
+        // TODO: 2019-05-09 get user Agent
         userAgent = new WebView(application).getSettings().getUserAgentString();
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(application));
         util.setUserAgent(userAgent);
@@ -70,6 +80,7 @@ public class TrackLib {
         } else {
         }
 
+        // TODO: 2019-05-09 Application Handler
         ApplicationLifecycleHandler handler = new ApplicationLifecycleHandler();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             application.registerActivityLifecycleCallbacks(handler);
@@ -90,7 +101,6 @@ public class TrackLib {
         } else {
             if (res) {
             } else {
-
                 new Util.callapi(fcmtoken, apiKey, serverKey, userAgent, refferer_chk, eventId, domainEndPoint, new Util.ThereIsSomeDataToGet() {
                     @Override
                     public void infofun(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12) {
@@ -102,7 +112,7 @@ public class TrackLib {
 
     }
 
-    public void serverKey(String serverkey) {
+   /* public void serverKey(String serverkey) {
         if (util.getServerKey() == null) {
             util.setServerKey(serverkey);
             serverKey = serverkey;
@@ -122,7 +132,14 @@ public class TrackLib {
             util.setDomainEndPoint(domainendpoint);
         }
     }
+*/
 
+    /**
+     * Tracking stage also u can track activity
+     *
+     * @param stage
+     * @param sendTOFcm
+     */
     public void gameStage(String stage, final sendTOFcm sendTOFcm) {
         Boolean isInstall = util.getBoolean();
 
@@ -135,6 +152,7 @@ public class TrackLib {
         clickId = util.getClickID();
         domainendpoint = util.getDomainEndPoint();
 
+        // TODO: 2019-05-09 If isInstall true than it will call api
         if (isInstall) {
             new Util.callapi(fcmtoken, apikey, serverkey, useragent, clickId, stage, domainendpoint, new Util.ThereIsSomeDataToGet() {
                 @Override
@@ -146,6 +164,7 @@ public class TrackLib {
         }
     }
 
+    // TODO: 2019-05-09 Interface to handle Call BAck and send all insof to Main App
     public interface sendTOFcm {
         void sendtofcm(String pubId, String offerId, String clickId, String track1, String track2, String track3, String track4, String track5, String track6, String track7, String track8, String track9, String track10, String track11, String track12);
     }

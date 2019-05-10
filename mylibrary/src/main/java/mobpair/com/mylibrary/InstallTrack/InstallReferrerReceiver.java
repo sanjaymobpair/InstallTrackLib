@@ -13,6 +13,11 @@ import android.util.Log;
 public class InstallReferrerReceiver extends BroadcastReceiver {
     private String TAG = "InstallReferrerReceiver";
 
+    /**
+     * it will call when app install from playstore this receiver will call and send intent to {@link TrackLib} Class
+     * @param context
+     * @param intent
+     */
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     public void onReceive(Context context, Intent intent) {
         TrackLib.getInstance().onReceive(context, intent);

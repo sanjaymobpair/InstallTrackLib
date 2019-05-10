@@ -7,7 +7,8 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 /**
- * Created by ${Mobpair} on 3/4/18.
+ * Created by ${Mobpair} on 3/4/18
+ * check for internet connectivty
  */
 public class InternetConnectionClass {
 
